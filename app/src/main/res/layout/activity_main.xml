@@ -39,13 +39,13 @@
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/urlInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="text"
-                android:text="Name" />
+                android:hint="Enter URL"
+                android:inputType="textUri" />
 
         </LinearLayout>
 
@@ -80,7 +80,7 @@
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/editTextPhone"
+                android:id="@+id/phoneInput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

@@ -6,9 +6,12 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -17,12 +20,32 @@ public class MainActivity extends Activity {
 
     private ImageView imageView;
     private Uri imageUri;
+    EditText addurl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addurl = findViewById(R.id.urlInput);
 
+        addurl.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Patterns.WEB_URL.matcher(addurl.getText().toString()).matches()) {
+                    //
+                } else {
+                    addurl.setError("Invalid Url");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
     }
 
@@ -41,63 +64,19 @@ public class MainActivity extends Activity {
     }
 
     public void link(View view) {
-        Uri uri = Uri.parse("https://www.pluralsight.com");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
-    }
-
-    public void mapLink(View view) {
-        Uri uri = Uri.parse("http://maps.google.com/maps?q=22.276556,114.160573");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        startActivity(intent);
-    }
-
-    public void mapGeo(View view) {
-        Uri uri = Uri.parse("geo:22.276556,114.160573");
+        EditText edit = (EditText) findViewById(R.id.urlInput);
+        String result = edit.getText().toString();
+        Uri uri = Uri.parse(result);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
 
     public void dial(View view) {
-        Uri uri = Uri.parse("tel:6699778322");
+        EditText edit = (EditText) findViewById(R.id.phoneInput);
+        String result = edit.getText().toString();
+        Uri uri = Uri.parse("tel:" + result);
         Intent intent = new Intent(Intent.ACTION_DIAL, uri);
         startActivity(intent);
     }
 
-    public void gallery(View view) {
-        Intent intent = new Intent();
-        intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, REQUEST_CODE_GALLERY);
-    }
-
-    public void sendText(View view) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, "Greetings from the intents course");
-        intent.setType("text/plain");
-        startActivity(Intent.createChooser(intent, getString(R.string.send_to)));
-    }
-
-    public void sendImage(View view) {
-        if (imageUri == null) {
-            Toast.makeText(this, R.string.no_image_picked_error, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        intent.setType(getContentResolver().getType(imageUri));
-        startActivity(Intent.createChooser(intent, getString(R.string.send_to)));
-    }
-
-    public void sendEmail(View view) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "recipient@example.com" });
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Implicit intents");
-        intent.putExtra(Intent.EXTRA_TEXT, "Writes your email for you");
-        startActivity(Intent.createChooser(intent, getString(R.string.send_to)));
-    }
 }
