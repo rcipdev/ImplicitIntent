@@ -27,7 +27,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addurl = findViewById(R.id.urlInput);
-
         addurl.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -46,7 +45,6 @@ public class MainActivity extends Activity {
             public void afterTextChanged(Editable s) {
             }
         });
-
     }
 
     @Override
