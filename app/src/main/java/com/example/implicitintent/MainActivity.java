@@ -16,10 +16,6 @@ import android.widget.ImageView;
 import java.io.IOException;
 
 public class MainActivity extends Activity {
-    private static final int REQUEST_CODE_GALLERY = 1000;
-
-    private ImageView imageView;
-    private Uri imageUri;
     EditText addurl;
 
     @Override
@@ -49,15 +45,6 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_GALLERY && resultCode == Activity.RESULT_OK) {
-            try {
-                imageUri = data.getData();
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                imageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-            }
-            return;
-        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
